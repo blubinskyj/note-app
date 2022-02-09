@@ -1,0 +1,18 @@
+<div class="login-form">
+  <div class="content">
+    <img class="icon" src="./assets/images/4o5glrmp72i0s3mvdjjttup3q6-28ade0980de64c4a3ce1ac1529214d73.png" alt="">
+    <h1>Log in to Note app</h1>
+    <p>Please, input your email.</p>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <input formControlName="email" class="input-field" type="email" placeholder="Email">
+      <div
+        *ngIf="form.controls['email'].invalid && form.controls['email'].touched">
+        <div class="error-massage" *ngIf="form.controls['email'].errors?.['email']">
+          Invalid email
+        </div>
+      </div>
+      <button class="submit-butt" type="submit" [disabled]="!form.controls['email'].value">Next</button>
+    </form>
+  </div>
+</div>
+<router-outlet></router-outlet>

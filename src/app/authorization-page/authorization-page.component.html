@@ -1,0 +1,13 @@
+<div class="login-form">
+  <div class="content">
+    <img class="icon" src="./assets/images/4o5glrmp72i0s3mvdjjttup3q6-28ade0980de64c4a3ce1ac1529214d73.png" alt="">
+    <h1>Log in to Note app</h1>
+    <p>Please, input your password.</p>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <input formControlName="email" class="input-field" type="email" [attr.disabled]=true>
+      <input formControlName="password" class="input-field" type="password" placeholder="Password">
+      <button class="submit-butt" type="submit" [disabled]="!form.controls['password'].value">Login</button>
+    </form>
+  </div>
+</div>
+<router-outlet></router-outlet>
