@@ -1,13 +1,37 @@
 .groups-container {
   background: rgba(34, 32, 41, 1);
-  width: 100%;
+  border-right: black solid 1.5px;
 }
 
 .notes-container {
   background: rgba(0, 0, 0, 0.9);
+  border-right: black solid 1.5px;
 }
 
 .content-container {
   background: rgba(0, 0, 0, 0.85);
+}
 
+ul {
+  display: flex;
+  justify-content: space-between;
+  height: 48px;
+  font-size: 14px;
+
+  li {
+    margin: auto 30px;
+  }
+
+  .logout-button {
+    margin-right: 30px;
+  }
+}
+
+.logout-button {
+  text-align: right;
+}
+
+.content-header {
+  background-color: #383838;
+  height: 50px;
 }

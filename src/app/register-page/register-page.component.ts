@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../shared/services/auth.service";
 import {Router} from "@angular/router";
@@ -11,7 +11,7 @@ import {StoreService} from "../shared/services/store.service";
 })
 export class RegisterPageComponent {
 
-  public firstName =""
+  public firstName = ""
   public lastName = ""
   public email = ""
   public password = ""
@@ -20,10 +20,10 @@ export class RegisterPageComponent {
     firstName: new FormControl(this.firstName, [
       Validators.required
     ]),
-    lastName: new FormControl(this.lastName,[
+    lastName: new FormControl(this.lastName, [
       Validators.required
-      ]),
-    email: new FormControl(this.store.store.value.email,[
+    ]),
+    email: new FormControl(this.store.store.value.email, [
       Validators.required,
       Validators.email
     ]),
@@ -35,9 +35,7 @@ export class RegisterPageComponent {
   constructor(private auth: AuthService,
               private router: Router,
               private store: StoreService) {
-    console.log("cscsd", this.store.store.value.email)
   }
-
 
   onSubmit() {
     this.form.markAllAsTouched()
@@ -45,14 +43,19 @@ export class RegisterPageComponent {
       return;
     }
     this.auth.register(this.form.value).subscribe(
-      (res)=>{
-        console.log("register res" , res)
-        if (!res.error){
-          if (!res.data.user){
+      (res) => {
+        // console.log("register res" , res)
+        if (!res.error) {
+          if (!res.data.user) {
             alert(" was not found")
             return;
           }
-          this.store.updateStore({ firstName: this.form.value.firstName, lastName: this.form.value.lastName, email: this.form.value.email, password: this.form.value.password})
+          this.store.updateStore({
+            firstName: this.form.value.firstName,
+            lastName: this.form.value.lastName,
+            email: this.form.value.email,
+            password: this.form.value.password
+          })
           return this.router.navigate(['/overview'])
         }
         throw new Error("Internal server error")

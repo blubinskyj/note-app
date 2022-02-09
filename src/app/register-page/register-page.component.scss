@@ -51,12 +51,13 @@
     background: #0071e3;
     border-radius: 980px;
     padding: 12px 22px;
+
     &:disabled {
       opacity: .3;
     }
   }
 
-  .error-massage{
+  .error-massage {
     padding: 5px;
     color: red;
     font-style: italic;

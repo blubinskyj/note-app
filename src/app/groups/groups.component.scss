@@ -1,8 +1,41 @@
-.folder-icon{
+.folder-icon {
   max-width: 14px;
-  margin: 2.5px 10px;
+  margin: 2px 10px;
 }
 
-span{
-
+.create-group-button {
+  background: transparent;
+  margin-bottom: 10px;
+  margin-left: 10px;
 }
+
+.input-group-name {
+  background: transparent;
+  border-radius: 5px;
+  border: #a58c31 solid 2px;
+}
+
+.submit-create {
+  button {
+    margin-left: 30px;
+    background: transparent;
+  }
+}
+
+li {
+  padding: 5px 10px 5px 0;
+  border-radius: 5px;
+  width: 270px;
+}
+
+.setting-icon {
+  float: right;
+  max-width: 14px;
+  margin-top: 3px;
+}
+
+.group-quantity {
+  color: #c7c7bf;
+  float: right;
+}
+

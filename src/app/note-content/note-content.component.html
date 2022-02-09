@@ -1,1 +1,6 @@
-<p>note-content works!</p>
+<div class="basic-layout">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <button type="submit">Save note</button>
+    <textarea formControlName="content"></textarea>
+  </form>
+</div>

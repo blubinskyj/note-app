@@ -14,7 +14,7 @@ export interface FullUser {
   password: string
 }
 
-export type Response <T> = {
+export type Response<T> = {
   error: Boolean,
   data: T
 }
@@ -32,12 +32,17 @@ export type RegisterResponse = Response<{
   user: FullUser
 }>
 
+export type NoteResponse = Response<{
+  note: Note
+}>
+
 export type StoreData = {
   firstName: string
   lastName: string
   email: string
   password: string
   selectedGroupId: string
+  selectedNoteId: string
 }
 
 export type Note = {

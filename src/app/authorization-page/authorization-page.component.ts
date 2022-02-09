@@ -32,11 +32,13 @@ export class AuthorizationPageComponent implements OnInit, OnDestroy {
               private route: ActivatedRoute,
               private store: StoreService) {
   }
-  ngOnInit(){
-    this.route.queryParams.subscribe((params: Params)=>{
-      if (params['registered']){
 
-      }else if (params['accessDenied']){
+  ngOnInit() {
+
+    this.route.queryParams.subscribe((params: Params) => {
+      if (params['registered']) {
+
+      } else if (params['accessDenied']) {
 
       }
     })
@@ -50,14 +52,12 @@ export class AuthorizationPageComponent implements OnInit, OnDestroy {
 
 
   onSubmit() {
-
     this.form.markAllAsTouched()
     if (this.form.invalid) {
       return;
     }
     this.aSub = this.auth.authorize(this.form.value).subscribe(
       (res) => {
-        console.log("auth res", res)
         if (!res.error) {
           if (!res.data.token) {
             alert("email or password was not found")

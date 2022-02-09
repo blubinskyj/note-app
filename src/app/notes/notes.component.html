@@ -1,1 +1,18 @@
-<p>notes works!</p>
+<div class="basic-layout">
+  <ul>
+        <li style="background-color: #a58c31">
+          <div class="note-title">title</div>
+          <span class="note-date">20.01.22</span>
+          <span class="note-preview">preview text</span>
+        </li>
+    <div *ngIf="groups$ | async as groups">
+      <div *ngFor="let group of groups.data.groups">
+        <li *ngFor="let note of group.notes">
+          <div class="note-title" (click)="selectNoteHandler(note._id)">{{note.content}}</div>
+          <span class="note-date">{{note.createdAt}}</span>
+          <span class="note-preview">{{note.content}}</span>
+        </li>
+      </div>
+    </div>
+  </ul>
+</div>

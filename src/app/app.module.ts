@@ -10,13 +10,14 @@ import {RegisterPageComponent} from './register-page/register-page.component';
 import {AuthorizationPageComponent} from './authorization-page/authorization-page.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
-import { ToastrModule } from 'ngx-toastr';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {ToastrModule} from 'ngx-toastr';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatGridListModule} from '@angular/material/grid-list';
-import { NotesComponent } from './notes/notes.component';
-import { NoteContentComponent } from './note-content/note-content.component';
-import { GroupsComponent } from './groups/groups.component';
+import {NotesComponent} from './notes/notes.component';
+import {NoteContentComponent} from './note-content/note-content.component';
+import {GroupsComponent} from './groups/groups.component';
 import {TokenInterceptor} from "./shared/classes/token.interceptor";
+
 
 @NgModule({
   declarations: [
@@ -38,7 +39,7 @@ import {TokenInterceptor} from "./shared/classes/token.interceptor";
     HttpClientModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
-    MatGridListModule
+    MatGridListModule,
   ],
   providers: [
     {

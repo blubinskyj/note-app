@@ -4,7 +4,6 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {tap} from "rxjs/operators";
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -15,31 +14,31 @@ export class AuthService {
   constructor(private http: HttpClient) {
   }
 
-
   authorize(user: User): Observable<AuthResponse> {
     return this.http.post<AuthResponse>('/api/user/auth', user)
       .pipe(
         tap(
-          ({data})=>{
+          ({data}) => {
             localStorage.setItem('auth-token', data.token)
             this.setToken(data.token)
           }
         )
       )
   }
-  setToken(token: string){
+
+  setToken(token: string) {
     this.token = token
   }
 
-  getToken(): string{
+  getToken(): string {
     return this.token
   }
 
-  isAuthenticated(): boolean{
+  isAuthenticated(): boolean {
     return !!this.token
   }
 
-  logout(){
+  logout() {
     this.setToken('')
     localStorage.clear()
   }

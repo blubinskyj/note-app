@@ -36,7 +36,6 @@ export class LoginPageComponent {
     }
     this.auth.login(this.form.value).subscribe(
       (res) => {
-        console.log("login res ", res)
         if (!res.error) {
           if (!res.data.emailExists) {
             this.toastr.error("email was not found")
@@ -44,7 +43,6 @@ export class LoginPageComponent {
             return this.router.navigate(['/register']);
           }
           this.store.updateStore({email: this.form.value.email})
-          console.log("wdedw",this.store.store.value)
           return this.router.navigate(['/auth'])
         }
         throw new Error("Internal server error")
