@@ -7,6 +7,10 @@ export interface Email {
   email: string
 }
 
+export interface Id{
+  id: string
+}
+
 export interface FullUser {
   firstName: string
   lastName: string
@@ -14,10 +18,23 @@ export interface FullUser {
   password: string
 }
 
+export interface CreateGroup {
+  name: string,
+  userId: string
+}
+
 export type Response<T> = {
   error: Boolean,
   data: T
 }
+
+export type CreateGroupResponse = Response<{
+  group: Group
+}>
+
+export type DeleteGroup = Response<{
+  id: Id
+}>
 
 export type LoginResponse = Response<{
   emailExists: Boolean

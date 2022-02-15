@@ -1,21 +1,22 @@
 <div class="basic-layout">
-  <button class="create-group-button">Create group</button>
-<!--  <ul>-->
-<!--      <form [formGroup]="form">-->
-<!--      <li>-->
-<!--        <img class="folder-icon" src="./assets/images/icons8-folder.svg" alt="">-->
-<!--        <input class="input-group-name" type="text" formControlName="groupName" placeholder="New group">-->
-<!--        <img class="setting-icon" src="./assets/images/icons8-settings.svg" style="display: none">-->
-<!--        <span class="submit-create"><button type="submit">Create</button></span>-->
-<!--      </li>-->
-<!--      </form>-->
-<!--    </ul>-->
+  <button class="create-group-button" (click)="toggleCreator()">Create new group</button>
+  <ul [hidden]="isShow">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <li>
+        <img class="folder-icon" src="./assets/images/icons8-folder.svg" alt="">
+        <input class="input-group-name" type="text" formControlName="name" placeholder="New group">
+        <img class="setting-icon" src="./assets/images/icons8-settings.svg" style="display: none">
+        <span class="submit-create"><button type="submit">Create</button></span>
+      </li>
+      </form>
+    </ul>
   <ul>
     <div *ngIf="groups$ | async as groups">
-      <li *ngFor="let group of groups.data.groups" >
+      <li *ngFor="let group of groups.data.groups" (click)="selectGroupHandler(group._id)">
         <img class="folder-icon" src="./assets/images/icons8-folder.svg" alt="">
-        <span class="group-name" (click)="selectGroupHandler(group._id)" >{{group.name}}</span>
-        <img class="setting-icon" src="./assets/images/icons8-settings.svg" style="display: none">
+        <span class="group-name" >{{group.name}}</span>
+        <img class="setting-icon" src="./assets/images/settings_black_24dp.svg" style="display: block">
+        <img class="delete-icon" src="./assets/images/delete_black_24dp.svg" style="display: block">
         <span class="group-quantity">{{group.notes.length}}</span>
       </li>
     </div>

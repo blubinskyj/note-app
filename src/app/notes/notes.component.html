@@ -1,14 +1,16 @@
 <div class="basic-layout">
+<!--  <ul>-->
+<!--    <li>-->
+<!--      <div class="note-title">qcwqe</div>-->
+<!--      <span class="note-date">2022-02-11T08:11:28.408Z</span>-->
+<!--      <span class="note-preview">qwedew</span>-->
+<!--    </li>-->
+<!--  </ul>-->
   <ul>
-        <li style="background-color: #a58c31">
-          <div class="note-title">title</div>
-          <span class="note-date">20.01.22</span>
-          <span class="note-preview">preview text</span>
-        </li>
     <div *ngIf="groups$ | async as groups">
       <div *ngFor="let group of groups.data.groups">
-        <li *ngFor="let note of group.notes">
-          <div class="note-title" (click)="selectNoteHandler(note._id)">{{note.content}}</div>
+        <li *ngFor="let note of group.notes" (click)="selectNoteHandler(note._id)">
+          <div class="note-title">{{note.content}}</div>
           <span class="note-date">{{note.createdAt}}</span>
           <span class="note-preview">{{note.content}}</span>
         </li>

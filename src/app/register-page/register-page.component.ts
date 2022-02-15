@@ -44,7 +44,6 @@ export class RegisterPageComponent {
     }
     this.auth.register(this.form.value).subscribe(
       (res) => {
-        // console.log("register res" , res)
         if (!res.error) {
           if (!res.data.user) {
             alert(" was not found")

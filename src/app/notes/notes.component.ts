@@ -4,6 +4,7 @@ import {GroupsService} from "../shared/services/groups.service";
 import {AuthService} from "../shared/services/auth.service";
 import {Observable} from "rxjs";
 import {AllGroupsResponse} from "../shared/interfaces";
+import {GroupsComponent} from "../groups/groups.component";
 
 @Component({
   selector: 'app-notes',
@@ -25,8 +26,7 @@ export class NotesComponent implements OnInit {
     this.groups$ = this.groupsService.fetch()
   }
 
-  selectNoteHandler(id: string){
+  selectNoteHandler(id: string) {
     this.store.updateStore({selectedNoteId: id})
   }
-
 }

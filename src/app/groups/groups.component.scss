@@ -28,10 +28,14 @@ li {
   width: 270px;
 }
 
-.setting-icon {
+.selectedGroup{
+  background-color: #a58c31
+}
+
+.setting-icon, .delete-icon {
   float: right;
-  max-width: 14px;
-  margin-top: 3px;
+  max-width: 16px;
+  margin-top: 2px;
 }
 
 .group-quantity {
