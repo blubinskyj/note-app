@@ -1,8 +1,8 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {StoreService} from "../shared/services/store.service";
 import {GroupsService} from "../shared/services/groups.service";
-import {AllGroupsResponse, Note} from "../shared/interfaces";
-import {Observable} from "rxjs";
+import {AllGroupsResponse, Group, Note} from "../shared/interfaces";
+import {BehaviorSubject, Observable, Subscription} from "rxjs";
 import jwt_decode from 'jwt-decode';
 import {AuthService} from "../shared/services/auth.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
@@ -13,10 +13,11 @@ import {ToastrService} from "ngx-toastr";
   templateUrl: './groups.component.html',
   styleUrls: ['./groups.component.scss']
 })
-export class GroupsComponent implements OnInit {
+export class GroupsComponent implements OnInit, OnDestroy {
 
 
-  groups$?: Observable<AllGroupsResponse>
+  groups$: BehaviorSubject<Group[]>= new BehaviorSubject<Group[]>([])
+  private storeSub?: Subscription
   public name = "New group"
   isShow = true
 
@@ -31,22 +32,20 @@ export class GroupsComponent implements OnInit {
               private group: GroupsService,
               private toastr: ToastrService,
               private auth: AuthService) {
-    this.store.store.subscribe((res) => console.log(res))
+
   }
 
   ngOnInit(): void {
     this.fetchGroups()
+    this.storeSub = this.store.store.subscribe((res) => console.log(res))
+  }
+
+  ngOnDestroy() {
+    this.storeSub?.unsubscribe()
   }
 
   selectGroupHandler(id: string) {
     this.store.updateStore({selectedGroupId: id})
-    this.groups$ = this.groupsService.fetch()
-    this.groups$.forEach((group) => {
-      group.data.groups.forEach((item) => {
-        if (item._id == this.store.store.value.selectedGroupId) {
-        }
-      })
-    })
   }
 
   onSubmit() {
@@ -64,8 +63,13 @@ export class GroupsComponent implements OnInit {
       }
     )
   }
-  fetchGroups(){
-    this.groups$ = this.groupsService.fetch()
+
+  fetchGroups() {
+    this.groupsService.fetch().subscribe((res)=>{
+      this.groups$.next(res.data.groups)
+      this.store.updateStore({groups: res.data.groups})
+    })
+
   }
 
   toggleCreator() {

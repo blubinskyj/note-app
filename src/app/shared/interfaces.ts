@@ -60,6 +60,8 @@ export type StoreData = {
   password: string
   selectedGroupId: string
   selectedNoteId: string
+  groups: Group[]
+  notes: Note[]
 }
 
 export type Note = {
@@ -74,6 +76,10 @@ export type Group = {
   "name": string,
   "notes": Note[],
 }
+
+export type AllNotesResponse = Response<{
+  notes: Note[]
+}>
 
 export type AllGroupsResponse = Response<{
   groups: Group[]

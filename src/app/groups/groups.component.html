@@ -11,14 +11,14 @@
       </form>
     </ul>
   <ul>
-    <div *ngIf="groups$ | async as groups">
-      <li *ngFor="let group of groups.data.groups" (click)="selectGroupHandler(group._id)">
+
+      <li *ngFor="let group of groups$.value" (click)="selectGroupHandler(group._id)">
         <img class="folder-icon" src="./assets/images/icons8-folder.svg" alt="">
         <span class="group-name" >{{group.name}}</span>
         <img class="setting-icon" src="./assets/images/settings_black_24dp.svg" style="display: block">
         <img class="delete-icon" src="./assets/images/delete_black_24dp.svg" style="display: block">
         <span class="group-quantity">{{group.notes.length}}</span>
       </li>
-    </div>
+
   </ul>
 </div>

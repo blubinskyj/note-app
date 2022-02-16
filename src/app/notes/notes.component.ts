@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {StoreService} from "../shared/services/store.service";
 import {GroupsService} from "../shared/services/groups.service";
 import {AuthService} from "../shared/services/auth.service";
-import {Observable} from "rxjs";
-import {AllGroupsResponse} from "../shared/interfaces";
+import {BehaviorSubject, Observable, of, Subscription} from "rxjs";
+import {AllGroupsResponse, AllNotesResponse, Group, Note} from "../shared/interfaces";
 import {GroupsComponent} from "../groups/groups.component";
 
 @Component({
@@ -11,11 +11,11 @@ import {GroupsComponent} from "../groups/groups.component";
   templateUrl: './notes.component.html',
   styleUrls: ['./notes.component.scss']
 })
-export class NotesComponent implements OnInit {
+export class NotesComponent implements OnInit, OnChanges, OnDestroy {
 
-  groups$?: Observable<AllGroupsResponse>
-  selectedGroup = ""
-
+  groups$: BehaviorSubject<Group[]> = new BehaviorSubject<Group[]>([])
+  notes$: BehaviorSubject<Note[]> = new BehaviorSubject<Note[]>([])
+  private storeSub?: Subscription
 
   constructor(private store: StoreService,
               private groupsService: GroupsService,
@@ -23,10 +23,26 @@ export class NotesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.groups$ = this.groupsService.fetch()
+    this.storeSub = this.store.store.subscribe((storeData) => {
+      const targetGroup = storeData.groups.find((group) => {
+        return group._id === storeData.selectedGroupId
+      })
+      if (targetGroup) {
+        this.notes$.next(targetGroup.notes)
+      }
+    })
   }
+
+  ngOnDestroy() {
+    this.storeSub?.unsubscribe()
+  }
+
 
   selectNoteHandler(id: string) {
     this.store.updateStore({selectedNoteId: id})
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log("dsed", this.store.store.value.selectedGroupId)
   }
 }

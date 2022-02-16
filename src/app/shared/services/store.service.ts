@@ -8,7 +8,9 @@ const initialStore: StoreData = {
   email: "",
   password: "",
   selectedGroupId: "",
-  selectedNoteId: ""
+  selectedNoteId: "",
+  groups: [],
+  notes: []
 };
 
 @Injectable({
