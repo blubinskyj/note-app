@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {Email, FullUser, User, LoginResponse, AuthResponse, RegisterResponse} from "../interfaces";
+import {FullUser, User, LoginResponse, AuthResponse, RegisterResponse} from "../interfaces";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {tap} from "rxjs/operators";
@@ -43,7 +43,7 @@ export class AuthService {
     localStorage.clear()
   }
 
-  login(email: Email): Observable<LoginResponse> {
+  login(email: string): Observable<LoginResponse> {
     return this.http.post<LoginResponse>('/api/user/login', email)
   }
 

@@ -1,24 +1,34 @@
 <div class="basic-layout">
-  <button class="create-group-button" (click)="toggleCreator()">Create new group</button>
+  <button class="create-group-button" (click)="toggleCreator()">
+    <img src="assets/images/control_point_black_24dp.svg">New Group
+  </button>
   <ul [hidden]="isShow">
-      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <li>
         <img class="folder-icon" src="./assets/images/icons8-folder.svg" alt="">
         <input class="input-group-name" type="text" formControlName="name" placeholder="New group">
-        <img class="setting-icon" src="./assets/images/icons8-settings.svg" style="display: none">
         <span class="submit-create"><button type="submit">Create</button></span>
       </li>
-      </form>
-    </ul>
+    </form>
+  </ul>
+
   <ul>
-
-      <li *ngFor="let group of groups$.value" (click)="selectGroupHandler(group._id)">
-        <img class="folder-icon" src="./assets/images/icons8-folder.svg" alt="">
-        <span class="group-name" >{{group.name}}</span>
-        <img class="setting-icon" src="./assets/images/settings_black_24dp.svg" style="display: block">
-        <img class="delete-icon" src="./assets/images/delete_black_24dp.svg" style="display: block">
+    <li *ngFor="let group of groups$.value" (click)="selectGroupHandler(group._id)">
+      <img class="folder-icon" src="./assets/images/icons8-folder.svg" alt="">
+      <div *ngIf="!isEditing; else editGroup">
+        <span class="group-name">{{group.name}}</span>
+      </div>
+      <ng-template #editGroup>
+        <form>
+          <input class="input-group-name" type="text" placeholder="{{group.name}}">
+        </form>
+      </ng-template>
+      <div class="action-block">
+        <button class="action-button" (click)="deleteGroup(group._id)"><img src="./assets/images/delete_black_24dp.svg">
+        </button>
+        <button class="action-button"><img src="./assets/images/settings_black_24dp.svg"></button>
         <span class="group-quantity">{{group.notes.length}}</span>
-      </li>
-
+      </div>
+    </li>
   </ul>
 </div>

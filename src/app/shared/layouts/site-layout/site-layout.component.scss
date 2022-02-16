@@ -1,15 +1,18 @@
 .groups-container {
   background: rgba(34, 32, 41, 1);
   border-right: black solid 1.5px;
+  min-width: 150px;
 }
 
 .notes-container {
   background: rgba(0, 0, 0, 0.9);
   border-right: black solid 1.5px;
+  min-width: 300px;
 }
 
 .content-container {
   background: rgba(0, 0, 0, 0.85);
+  min-width: 700px;
 }
 
 ul {

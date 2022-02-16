@@ -3,9 +3,14 @@
 }
 
 li {
+  display: flex;
   padding: 10px 30px;
   border-radius: 10px;
   width: 460px;
+  .action-block {
+    margin-left: auto;
+
+  }
 }
 
 .note-date {
@@ -22,4 +27,15 @@ li {
   background: transparent;
   margin-bottom: 10px;
   margin-left: 10px;
+}
+
+.action-button {
+  background: transparent;
+  max-width: 16px;
+  margin-top: 20px;
+
+  img {
+    max-width: 100%;
+    max-height: 100%;
+  }
 }

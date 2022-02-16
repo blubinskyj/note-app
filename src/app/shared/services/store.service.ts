@@ -10,7 +10,7 @@ const initialStore: StoreData = {
   selectedGroupId: "",
   selectedNoteId: "",
   groups: [],
-  notes: []
+  content: ""
 };
 
 @Injectable({

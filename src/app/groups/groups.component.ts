@@ -16,10 +16,11 @@ import {ToastrService} from "ngx-toastr";
 export class GroupsComponent implements OnInit, OnDestroy {
 
 
-  groups$: BehaviorSubject<Group[]>= new BehaviorSubject<Group[]>([])
+  groups$: BehaviorSubject<Group[]> = new BehaviorSubject<Group[]>([])
   private storeSub?: Subscription
-  public name = "New group"
+  public name = ""
   isShow = true
+  isEditing = false
 
   public form = new FormGroup({
     name: new FormControl(this.name, [
@@ -29,7 +30,6 @@ export class GroupsComponent implements OnInit, OnDestroy {
 
   constructor(private store: StoreService,
               private groupsService: GroupsService,
-              private group: GroupsService,
               private toastr: ToastrService,
               private auth: AuthService) {
 
@@ -48,8 +48,20 @@ export class GroupsComponent implements OnInit, OnDestroy {
     this.store.updateStore({selectedGroupId: id})
   }
 
+  deleteGroup(id: string) {
+    if (this.store.store.value.selectedGroupId === id) {
+      console.log("asesaed")
+      this.store.updateStore({selectedGroupId: ""})
+      console.log(this.store.store.value.selectedGroupId)
+    }
+    this.groupsService.deleteGroup(id).subscribe(() => {
+      this.fetchGroups()
+    })
+  }
+
+
   onSubmit() {
-    this.group.createGroup(this.form.value).subscribe(
+    this.groupsService.createGroup(this.form.value).subscribe(
       (res) => {
         if (!res.error) {
           this.isShow = true
@@ -65,12 +77,12 @@ export class GroupsComponent implements OnInit, OnDestroy {
   }
 
   fetchGroups() {
-    this.groupsService.fetch().subscribe((res)=>{
+    this.groupsService.fetch().subscribe((res) => {
       this.groups$.next(res.data.groups)
       this.store.updateStore({groups: res.data.groups})
     })
-
   }
+
 
   toggleCreator() {
     this.isShow = !this.isShow;

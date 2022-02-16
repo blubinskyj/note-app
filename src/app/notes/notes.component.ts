@@ -1,4 +1,4 @@
-import {Component, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {StoreService} from "../shared/services/store.service";
 import {GroupsService} from "../shared/services/groups.service";
 import {AuthService} from "../shared/services/auth.service";
@@ -11,7 +11,7 @@ import {GroupsComponent} from "../groups/groups.component";
   templateUrl: './notes.component.html',
   styleUrls: ['./notes.component.scss']
 })
-export class NotesComponent implements OnInit, OnChanges, OnDestroy {
+export class NotesComponent implements OnInit, OnDestroy {
 
   groups$: BehaviorSubject<Group[]> = new BehaviorSubject<Group[]>([])
   notes$: BehaviorSubject<Note[]> = new BehaviorSubject<Note[]>([])
@@ -29,6 +29,8 @@ export class NotesComponent implements OnInit, OnChanges, OnDestroy {
       })
       if (targetGroup) {
         this.notes$.next(targetGroup.notes)
+      }else {
+        this.notes$.next([])
       }
     })
   }
@@ -40,9 +42,6 @@ export class NotesComponent implements OnInit, OnChanges, OnDestroy {
 
   selectNoteHandler(id: string) {
     this.store.updateStore({selectedNoteId: id})
-  }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log("dsed", this.store.store.value.selectedGroupId)
   }
 }
