@@ -4,6 +4,8 @@ import {
   AllGroupsResponse,
   CreateGroup,
   CreateGroupResponse,
+  DeleteGroupResponse, UpdateGroup,
+  UpdateGroupResponse
 } from "../interfaces";
 import {Observable} from "rxjs";
 
@@ -23,7 +25,11 @@ export class GroupsService {
     return this.http.post<CreateGroupResponse>('/api/groups',createUser)
   }
 
-  // deleteGroup(id: Id): Observable<DeleteGroup>{
-  //   this.http.delete<DeleteGroup>(`/api/groups/${id}`)
-  // }
+  deleteGroup(id: string): Observable<DeleteGroupResponse>{
+    return this.http.delete<DeleteGroupResponse>(`/api/groups/${id}`)
+  }
+
+  updateGroup(updateGroup: UpdateGroup): Observable<UpdateGroupResponse>{
+    return this.http.put<UpdateGroupResponse>(`/api/groups/${updateGroup.id}`,updateGroup)
+  }
 }

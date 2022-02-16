@@ -6,11 +6,17 @@
   <!--      <span class="note-preview">qwedew</span>-->
   <!--    </li>-->
   <!--  </ul>-->
+<!--  (click)="selectNoteHandler(note._id)-->
   <ul>
     <li *ngFor="let note of notes$.value" (click)="selectNoteHandler(note._id)">
-      <div class="note-title">{{note.content}}</div>
-      <span class="note-date">{{note.createdAt}}</span>
-      <span class="note-preview">{{note.content}}</span>
+      <div>
+        <div class="note-title">{{note.content}}</div>
+        <span class="note-date">{{note.createdAt}}</span>
+        <span class="note-preview">{{note.content}}</span>
+      </div>
+      <div class="action-block">
+        <button class="action-button" (click)="deleteNote(note._id)" ><img src="./assets/images/delete_black_24dp.svg"></button>
+      </div>
     </li>
   </ul>
 </div>

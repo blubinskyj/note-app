@@ -1,6 +1,6 @@
 <div class="basic-layout">
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <button type="submit">Save note</button>
-    <textarea formControlName="content"></textarea>
+    <button type="submit">Create note</button>
+    <textarea formControlName="content" value="{{note$.value.content}}"></textarea>
   </form>
 </div>

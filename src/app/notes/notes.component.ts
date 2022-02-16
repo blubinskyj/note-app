@@ -1,25 +1,25 @@
-import {Component, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {StoreService} from "../shared/services/store.service";
 import {GroupsService} from "../shared/services/groups.service";
-import {AuthService} from "../shared/services/auth.service";
-import {BehaviorSubject, Observable, of, Subscription} from "rxjs";
-import {AllGroupsResponse, AllNotesResponse, Group, Note} from "../shared/interfaces";
-import {GroupsComponent} from "../groups/groups.component";
+import {BehaviorSubject,Subscription} from "rxjs";
+import {Note} from "../shared/interfaces";
+import {NotesService} from "../shared/services/notes.service";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-notes',
   templateUrl: './notes.component.html',
   styleUrls: ['./notes.component.scss']
 })
-export class NotesComponent implements OnInit, OnChanges, OnDestroy {
+export class NotesComponent implements OnInit, OnDestroy {
 
-  groups$: BehaviorSubject<Group[]> = new BehaviorSubject<Group[]>([])
   notes$: BehaviorSubject<Note[]> = new BehaviorSubject<Note[]>([])
   private storeSub?: Subscription
 
   constructor(private store: StoreService,
               private groupsService: GroupsService,
-              private auth: AuthService) {
+              private notesService: NotesService,
+              private toastr: ToastrService) {
   }
 
   ngOnInit(): void {
@@ -29,6 +29,8 @@ export class NotesComponent implements OnInit, OnChanges, OnDestroy {
       })
       if (targetGroup) {
         this.notes$.next(targetGroup.notes)
+      } else {
+        this.notes$.next([])
       }
     })
   }
@@ -38,11 +40,17 @@ export class NotesComponent implements OnInit, OnChanges, OnDestroy {
   }
 
 
-  selectNoteHandler(id: string) {
-    this.store.updateStore({selectedNoteId: id})
+  deleteNote(id: string) {
+    if (this.store.store.value.selectedNoteId == id) {
+      this.store.updateStore({selectedNoteId: ""})
+      console.log(this.store.store.value.selectedNoteId)
+    }
+    this.notesService.deleteNote(this.store.store.value.selectedGroupId, id).subscribe(() => {
+      this.toastr.success("Note was deleted")
+    })
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log("dsed", this.store.store.value.selectedGroupId)
+  selectNoteHandler(id: string) {
+    this.store.updateStore({selectedNoteId: id})
   }
 }

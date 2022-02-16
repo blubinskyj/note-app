@@ -7,6 +7,11 @@
   background: transparent;
   margin-bottom: 10px;
   margin-left: 10px;
+
+  img {
+    width: 15px;
+    margin-right: 10px;
+  }
 }
 
 .input-group-name {
@@ -23,23 +28,32 @@
 }
 
 li {
+  display: flex;
   padding: 5px 10px 5px 0;
   border-radius: 5px;
-  width: 270px;
+  min-width: 160px;
+
+  .action-block {
+    margin-left: auto;
+  }
 }
 
-.selectedGroup{
+.selectedGroup {
   background-color: #a58c31
-}
-
-.setting-icon, .delete-icon {
-  float: right;
-  max-width: 16px;
-  margin-top: 2px;
 }
 
 .group-quantity {
   color: #c7c7bf;
-  float: right;
+  margin-left: 6px;
+}
+
+.action-button {
+  background: transparent;
+  max-width: 16px;
+
+  img {
+    max-width: 100%;
+    max-height: 100%;
+  }
 }
 
