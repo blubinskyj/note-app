@@ -4,9 +4,7 @@ import {GroupsService} from "../shared/services/groups.service";
 import {AuthService} from "../shared/services/auth.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {BehaviorSubject} from "rxjs";
-import {Group, Note} from "../shared/interfaces";
-import {NotesService} from "../shared/services/notes.service";
-import {ToastrService} from "ngx-toastr";
+import {Note} from "../shared/interfaces";
 
 @Component({
   selector: 'app-note-content',
@@ -21,11 +19,10 @@ export class NoteContentComponent implements OnInit {
     _id: "",
     userId: ""
   }
-  groups$: BehaviorSubject<Group[]> = new BehaviorSubject<Group[]>([])
   note$: BehaviorSubject<Note> = new BehaviorSubject<Note>(this.initialNote)
   public content = ""
   public createdAt = Date.now()
-  public groupId = ""
+  public userId = ""
 
   public form = new FormGroup({
     content: new FormControl(this.content, [
@@ -34,15 +31,14 @@ export class NoteContentComponent implements OnInit {
     createdAt: new FormControl(this.createdAt, [
       Validators.required
     ]),
-    groupId: new FormControl(this.groupId, [
+    userId: new FormControl(this.userId, [
       Validators.required,
     ])
   })
 
   constructor(private store: StoreService,
               private groupsService: GroupsService,
-              private notesService: NotesService,
-              private toastr: ToastrService) {
+              private auth: AuthService) {
   }
 
   ngOnInit(): void {
@@ -56,30 +52,18 @@ export class NoteContentComponent implements OnInit {
         })
         if (targetNote) {
           this.note$.next(targetNote)
-        }else {
-          this.note$.next(this.initialNote)
         }
       }
     })
   }
+  someFunc(){
 
-  // updateNote(){
-  //
-  // }
-
-  onSubmit() {
-
-    this.notesService.createNote(this.store.store.value.selectedGroupId,this.form.value.content).subscribe(()=>{
-      this.groupsService.fetch()
-      this.toastr.success("Note was created")
-    })
   }
 
-  fetchGroups() {
-    this.groupsService.fetch().subscribe((res) => {
-      this.groups$.next(res.data.groups)
-      this.store.updateStore({groups: res.data.groups})
-    })
+  onSubmit() {
+    this.content = this.store.store.value.content
+    // this.userId =
+    console.log(this.form.value)
   }
 
 }

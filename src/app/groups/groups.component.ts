@@ -1,9 +1,10 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {StoreService} from "../shared/services/store.service";
 import {GroupsService} from "../shared/services/groups.service";
-import {Group,} from "../shared/interfaces";
-import {BehaviorSubject, Subscription} from "rxjs";
+import {AllGroupsResponse, Group, Note} from "../shared/interfaces";
+import {BehaviorSubject, Observable, Subscription} from "rxjs";
 import jwt_decode from 'jwt-decode';
+import {AuthService} from "../shared/services/auth.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ToastrService} from "ngx-toastr";
 
@@ -29,7 +30,8 @@ export class GroupsComponent implements OnInit, OnDestroy {
 
   constructor(private store: StoreService,
               private groupsService: GroupsService,
-              private toastr: ToastrService) {
+              private toastr: ToastrService,
+              private auth: AuthService) {
 
   }
 
@@ -42,8 +44,13 @@ export class GroupsComponent implements OnInit, OnDestroy {
     this.storeSub?.unsubscribe()
   }
 
+  selectGroupHandler(id: string) {
+    this.store.updateStore({selectedGroupId: id})
+  }
+
   deleteGroup(id: string) {
     if (this.store.store.value.selectedGroupId === id) {
+      console.log("asesaed")
       this.store.updateStore({selectedGroupId: ""})
       console.log(this.store.store.value.selectedGroupId)
     }
@@ -51,6 +58,7 @@ export class GroupsComponent implements OnInit, OnDestroy {
       this.fetchGroups()
     })
   }
+
 
   onSubmit() {
     this.groupsService.createGroup(this.form.value).subscribe(
@@ -68,16 +76,13 @@ export class GroupsComponent implements OnInit, OnDestroy {
     )
   }
 
-  selectGroupHandler(id: string) {
-    this.store.updateStore({selectedGroupId: id})
-  }
-
   fetchGroups() {
     this.groupsService.fetch().subscribe((res) => {
       this.groups$.next(res.data.groups)
       this.store.updateStore({groups: res.data.groups})
     })
   }
+
 
   toggleCreator() {
     this.isShow = !this.isShow;
