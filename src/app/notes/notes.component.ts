@@ -1,10 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {StoreService} from "../shared/services/store.service";
 import {GroupsService} from "../shared/services/groups.service";
-import {AuthService} from "../shared/services/auth.service";
-import {BehaviorSubject, Observable, of, Subscription} from "rxjs";
-import {AllGroupsResponse, AllNotesResponse, Group, Note} from "../shared/interfaces";
-import {GroupsComponent} from "../groups/groups.component";
+import {BehaviorSubject, Subscription} from "rxjs";
+import {Content, Group, Note} from "../shared/interfaces";
+import {NotesService} from "../shared/services/notes.service";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-notes',
@@ -15,11 +15,15 @@ export class NotesComponent implements OnInit, OnDestroy {
 
   groups$: BehaviorSubject<Group[]> = new BehaviorSubject<Group[]>([])
   notes$: BehaviorSubject<Note[]> = new BehaviorSubject<Note[]>([])
+  public content: Content = {
+    content: "New note"
+  }
   private storeSub?: Subscription
 
   constructor(private store: StoreService,
               private groupsService: GroupsService,
-              private auth: AuthService) {
+              private notesService: NotesService,
+              private toastr: ToastrService) {
   }
 
   ngOnInit(): void {
@@ -29,7 +33,7 @@ export class NotesComponent implements OnInit, OnDestroy {
       })
       if (targetGroup) {
         this.notes$.next(targetGroup.notes)
-      }else {
+      } else {
         this.notes$.next([])
       }
     })
@@ -39,9 +43,32 @@ export class NotesComponent implements OnInit, OnDestroy {
     this.storeSub?.unsubscribe()
   }
 
+  createNote() {
+    this.notesService.createNote(this.store.store.value.selectedGroupId, this.content).subscribe(() => {
+      this.fetchGroups()
+      this.toastr.success("Note was created")
+    })
+  }
+
+  deleteNote(id: string) {
+    if (this.store.store.value.selectedNoteId == id) {
+      this.store.updateStore({selectedNoteId: ""})
+      console.log(this.store.store.value.selectedNoteId)
+    }
+    this.notesService.deleteNote(this.store.store.value.selectedGroupId, id).subscribe(() => {
+      this.fetchGroups()
+      this.toastr.success("Note was deleted")
+    })
+  }
 
   selectNoteHandler(id: string) {
     this.store.updateStore({selectedNoteId: id})
+  }
 
+  fetchGroups() {
+    this.groupsService.fetch().subscribe((res) => {
+      this.groups$.next(res.data.groups)
+      this.store.updateStore({groups: res.data.groups})
+    })
   }
 }

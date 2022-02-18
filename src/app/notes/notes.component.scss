@@ -2,14 +2,21 @@
 
 }
 
+button {
+  background: transparent;
+  margin-bottom: 10px;
+  margin-left: 30px;
+}
+
 li {
   display: flex;
+  justify-content: space-between;
   padding: 10px 30px;
   border-radius: 10px;
-  width: 460px;
+  min-width: 320px;
+
   .action-block {
     margin-left: auto;
-
   }
 }
 

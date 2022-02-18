@@ -1,20 +1,32 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import {DeleteGroupResponse, DeleteNote, DeleteNoteResponse, Note, NoteResponse} from "../interfaces";
+import {
+  Content,
+  CreateNoteResponse,
+  DeleteNoteResponse,
+  UpdateNoteResponse
+} from "../interfaces";
 import {Observable} from "rxjs";
 
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class NotesService {
+
   constructor(private http: HttpClient) {
   }
 
-  register(note: Note): Observable<NoteResponse> {
-    return this.http.post<NoteResponse>(`/api/${note.userId}/${note._id}`, note)
+  deleteNote(groupId: string, id: string): Observable<DeleteNoteResponse> {
+    return this.http.delete<DeleteNoteResponse>(`/api/notes/${groupId}/${id}`)
   }
 
-  deleteNote(deleteNote: DeleteNote): Observable<DeleteNoteResponse>{
-    return this.http.delete<DeleteNoteResponse>(`/api/notes/${deleteNote.groupId}/${deleteNote.id}`)
+  createNote(groupId:string, content: Content): Observable<CreateNoteResponse>{
+    return this.http.post<CreateNoteResponse>(`/api/notes/${groupId}`, content)
+  }
+
+  updateNote(groupId:string,noteId:string,content: Content): Observable<UpdateNoteResponse>{
+    return this.http.put<UpdateNoteResponse>(`/api/notes/${groupId}/${noteId}`,content)
   }
 
 }

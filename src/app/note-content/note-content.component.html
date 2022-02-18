@@ -1,6 +1,8 @@
 <div class="basic-layout">
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <button type="submit">Save note</button>
-    <textarea formControlName="content" value="{{note$.value.content}}"></textarea>
+    <textarea type="text"
+              formControlName="content"
+              value="{{note$.value.content}}"
+              (input)="inputHendler($event)"></textarea>
   </form>
 </div>

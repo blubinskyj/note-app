@@ -1,10 +1,15 @@
 import {Component, OnInit} from '@angular/core';
 import {StoreService} from "../shared/services/store.service";
 import {GroupsService} from "../shared/services/groups.service";
-import {AuthService} from "../shared/services/auth.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {BehaviorSubject} from "rxjs";
-import {Note} from "../shared/interfaces";
+import {Content, Group, Note} from "../shared/interfaces";
+import {NotesService} from "../shared/services/notes.service";
+import {ToastrService} from "ngx-toastr";
+import {debounceTime} from "rxjs/operators";
+
+
+
 
 @Component({
   selector: 'app-note-content',
@@ -13,16 +18,21 @@ import {Note} from "../shared/interfaces";
 })
 export class NoteContentComponent implements OnInit {
 
+  public noteContent: Content = {
+    content: ""
+  }
+
   public initialNote: Note = {
     content: "",
     createdAt: "",
     _id: "",
     userId: ""
   }
+  groups$: BehaviorSubject<Group[]> = new BehaviorSubject<Group[]>([])
   note$: BehaviorSubject<Note> = new BehaviorSubject<Note>(this.initialNote)
   public content = ""
   public createdAt = Date.now()
-  public userId = ""
+  public groupId = ""
 
   public form = new FormGroup({
     content: new FormControl(this.content, [
@@ -31,17 +41,30 @@ export class NoteContentComponent implements OnInit {
     createdAt: new FormControl(this.createdAt, [
       Validators.required
     ]),
-    userId: new FormControl(this.userId, [
+    groupId: new FormControl(this.groupId, [
       Validators.required,
     ])
   })
 
   constructor(private store: StoreService,
               private groupsService: GroupsService,
-              private auth: AuthService) {
+              private notesService: NotesService,
+              private toastr: ToastrService) {
+    this.form.get("content")?.valueChanges.pipe(
+      debounceTime(3000)
+    ).subscribe(dataValue => {
+      this.noteContent.content = dataValue
+
+      this.notesService.updateNote(this.store.store.value.selectedGroupId,this.store.store.value.selectedNoteId, this.noteContent)
+        .subscribe(()=>{
+          this.fetchGroups()
+          this.toastr.success("Group was create")
+      })
+    })
   }
 
   ngOnInit(): void {
+
     this.store.store.subscribe((storeData) => {
       const targetGroup = storeData.groups.find((group) => {
         return group._id === storeData.selectedGroupId
@@ -52,18 +75,29 @@ export class NoteContentComponent implements OnInit {
         })
         if (targetNote) {
           this.note$.next(targetNote)
+        }else {
+          this.note$.next(this.initialNote)
         }
       }
     })
   }
-  someFunc(){
 
+  inputHendler(event: any){
+    const searchText = event.target.value
+    console.log(searchText)
+    // this.notesService.updateNote(this.store.store.value.selectedGroupId,this.store.store.value.selectedNoteId, this.noteContent)
   }
 
+
+
   onSubmit() {
-    this.content = this.store.store.value.content
-    // this.userId =
-    console.log(this.form.value)
+  }
+
+  fetchGroups() {
+    this.groupsService.fetch().subscribe((res) => {
+      this.groups$.next(res.data.groups)
+      this.store.updateStore({groups: res.data.groups})
+    })
   }
 
 }

@@ -25,6 +25,10 @@ export interface DeleteNote {
   groupId: string
 }
 
+export interface Content{
+  content: string
+}
+
 export type StoreData = {
   firstName: string
   lastName: string
@@ -59,18 +63,27 @@ export type CreateGroupResponse = Response<{
   group: Group
 }>
 
-export type DeleteGroupResponse  = Response<{
+export type DeleteGroupResponse = Response<{
   id: string
 }>
 
-export type DeleteNoteResponse  = Response<{
+export type UpdateGroupResponse = Response<{
   id: string
 }>
 
-export type UpdateGroupResponse  = Response<{
+export type DeleteNoteResponse = Response<{
   id: string
 }>
 
+export type UpdateNoteResponse = Response<{
+  id: string
+}>
+
+export type CreateNoteResponse = Response<{
+  id: string
+  content: string
+  createdAt: string
+}>
 export type LoginResponse = Response<{
   emailExists: Boolean
 }>
