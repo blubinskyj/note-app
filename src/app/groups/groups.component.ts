@@ -17,19 +17,13 @@ export class GroupsComponent implements OnInit, OnDestroy {
   groups$: BehaviorSubject<Group[]> = new BehaviorSubject<Group[]>([])
   private storeSub?: Subscription
   public name = ""
-  public editedName = ""
   selectedGroup?: Group
+  edGroup?: Group
   isShow = true
   isEditing = false
 
   public form = new FormGroup({
     name: new FormControl(this.name, [
-      Validators.required
-    ])
-  })
-
-  public formEdit = new FormGroup({
-    editedName: new FormControl(this.editedName, [
       Validators.required
     ])
   })
@@ -59,14 +53,13 @@ export class GroupsComponent implements OnInit, OnDestroy {
     })
   }
 
-  editingGroup(){
-
+  editingGroup(group: Group){
+    this.edGroup = group
   }
 
   updateGroup(event: any) {
     if (event.keyCode === 13) {
-      console.log(this.formEdit.value)
-      this.groupsService.updateGroup(this.store.store.value.selectedGroupId, this.formEdit.value).subscribe(() => {
+      this.groupsService.updateGroup(this.store.store.value.selectedGroupId, this.form.value).subscribe(() => {
         this.fetchGroups()
         this.toastr.success("Group was updated")
       })

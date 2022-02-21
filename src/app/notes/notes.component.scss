@@ -1,5 +1,4 @@
 .basic-layout {
-
 }
 
 button {
@@ -13,11 +12,16 @@ li {
   justify-content: space-between;
   padding: 10px 30px;
   border-radius: 10px;
-  min-width: 320px;
+  min-width: 300px;
 
   .action-block {
     margin-left: auto;
   }
+}
+
+img{
+  width: 18px;
+  margin-right: 10px;
 }
 
 li.selected {

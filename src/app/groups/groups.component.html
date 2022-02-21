@@ -6,7 +6,7 @@
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <li>
         <img class="folder-icon" src="./assets/images/icons8-folder.svg" alt="">
-        <input class="input-group-name" type="text" formControlName="name" placeholder="New group">
+        <input class="input-group-name" type="text" formControlName="name" value="New group" placeholder="New group">
         <span class="submit-create"><button type="submit">Create</button></span>
       </li>
     </form>
@@ -15,18 +15,18 @@
   <ul>
     <li *ngFor="let group of groups$.value" (click)="selectGroupHandler(group)" [class.selected]="group === selectedGroup" >
       <img class="folder-icon" src="./assets/images/icons8-folder.svg" alt="">
-      <div *ngIf="!isEditing; else editGroup">
-        <span class="group-name">{{group.name}}</span>
+      <div *ngIf="edGroup !== group; else editGroup">
+        <span class="group-name">{{(group.name.length)?((group.name.length>20)?(group.name | slice:0:20)+"...":(group.name)):("Untitled")}}</span>
       </div>
       <ng-template #editGroup>
-        <form [formGroup]="formEdit" (keydown)="updateGroup($event)">
-          <input class="input-group-name" type="text" formControlName="editedName" placeholder="{{group.name}}">
+        <form [formGroup]="form" (keydown)="updateGroup($event)">
+          <input class="edit-group-name" type="text" formControlName="name">
         </form>
       </ng-template>
       <div class="action-block">
         <span *ngIf="selectedGroup === group">
           <button class="action-button" (click)="deleteGroup(group._id)"><img src="./assets/images/delete_black_24dp.svg" alt=""></button>
-          <button class="action-button" (click)="editingGroup()"><img src="./assets/images/settings_black_24dp.svg" alt=""></button>
+          <button class="action-button" (click)="editingGroup(group)"><img src="./assets/images/settings_black_24dp.svg" alt=""></button>
         </span>
         <span class="group-quantity">{{group.notes.length}}</span>
       </div>

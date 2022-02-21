@@ -44,7 +44,7 @@ h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight: 400;}
 
 
 html, body { height: 100%;}
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;}
 
 .mat-grid-tile-content {
   justify-content: flex-start !important ;
@@ -57,6 +57,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .basic-layout{
   margin-left: 8px;
+  margin-right: 8px;
   margin-top: 20px;
   font-size: 14px;
 }

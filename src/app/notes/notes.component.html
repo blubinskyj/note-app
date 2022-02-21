@@ -1,18 +1,16 @@
 <div class="basic-layout">
-  <!--  <ul>-->
-  <!--    <li>-->
-  <!--      <div class="note-title">qcwqe</div>-->
-  <!--      <span class="note-date">2022-02-11T08:11:28.408Z</span>-->
-  <!--      <span class="note-preview">qwedew</span>-->
-  <!--    </li>-->
-  <!--  </ul>-->
-  <button (click)="createNote()">Create Note</button>
+  <button (click)="createNote()">
+    <img src="./assets/images/playlist_add_black_24dp.svg" alt="">Create Note
+  </button>
   <ul>
     <li *ngFor="let note of notes$.value" (click)="selectNoteHandler(note)" [class.selected]="note === selectedNote" >
       <div>
-        <div class="note-title">{{note.content}}</div>
-        <span class="note-date">{{note.createdAt}}</span>
-        <span class="note-preview">{{note.content}}</span>
+        <div class="note-title">
+          {{(note.content.length)?
+          ((note.content.length>45)? (note.content | slice:0:45)+ "...":(note.content)):("Note empty")}}</div>
+        <span class="note-date">{{note.createdAt | date: 'Y-m-d H:m:s'}}</span>
+        <span class="note-preview">{{(note.content.length)?
+          ((note.content.length>35)? (note.content | slice:0:35)+ "...":(note.content)):("Note empty")}}</span>
       </div>
       <div class="action-block" *ngIf="selectedNote === note">
         <button class="action-button" (click)="deleteNote(note._id)" ><img src="./assets/images/delete_black_24dp.svg" alt=""></button>
