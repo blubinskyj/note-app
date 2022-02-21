@@ -10,3 +10,9 @@ textarea{
 textarea::first-line{
   font-size: 30px;
 }
+
+.loader{
+  width: 20px;
+  height: 20px;
+  background: url("/client/src/assets/spiner");
+}

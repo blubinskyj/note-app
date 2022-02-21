@@ -79,7 +79,7 @@ export class NoteContentComponent implements OnInit, AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     if (this.noteContentInput)
       this.textAreaSub = fromEvent(this.noteContentInput.nativeElement, 'input').pipe(
-        debounceTime(2000)
+        debounceTime(1000)
       ).subscribe((value) => {
         this.inputHandler(value)
       })

@@ -59,8 +59,10 @@ export class GroupsComponent implements OnInit, OnDestroy {
 
   updateGroup(event: any) {
     if (event.keyCode === 13) {
+      console.log(this.form.value)
       this.groupsService.updateGroup(this.store.store.value.selectedGroupId, this.form.value).subscribe(() => {
         this.fetchGroups()
+        this.form.reset()
         this.toastr.success("Group was updated")
       })
     }
