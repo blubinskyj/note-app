@@ -29,7 +29,7 @@ export class GroupsService {
     return this.http.delete<DeleteGroupResponse>(`/api/groups/${id}`)
   }
 
-  updateGroup(updateGroup: UpdateGroup): Observable<UpdateGroupResponse>{
-    return this.http.put<UpdateGroupResponse>(`/api/groups/${updateGroup.id}`,updateGroup)
+  updateGroup(id:string,updateGroup: UpdateGroup): Observable<UpdateGroupResponse>{
+    return this.http.put<UpdateGroupResponse>(`/api/groups/${id}`,updateGroup)
   }
 }

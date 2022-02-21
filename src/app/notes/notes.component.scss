@@ -20,6 +20,10 @@ li {
   }
 }
 
+li.selected {
+  background-color: #a58c31
+}
+
 .note-date {
   font-size: 12px;
   margin-right: 10px;
@@ -39,7 +43,7 @@ li {
 .action-button {
   background: transparent;
   max-width: 16px;
-  margin-top: 20px;
+  margin-top: 13px;
 
   img {
     max-width: 100%;

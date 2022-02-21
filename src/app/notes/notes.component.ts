@@ -15,6 +15,7 @@ export class NotesComponent implements OnInit, OnDestroy {
 
   groups$: BehaviorSubject<Group[]> = new BehaviorSubject<Group[]>([])
   notes$: BehaviorSubject<Note[]> = new BehaviorSubject<Note[]>([])
+  selectedNote?: Note
   public content: Content = {
     content: "New note"
   }
@@ -61,8 +62,9 @@ export class NotesComponent implements OnInit, OnDestroy {
     })
   }
 
-  selectNoteHandler(id: string) {
-    this.store.updateStore({selectedNoteId: id})
+  selectNoteHandler(note: Note) {
+    this.store.updateStore({selectedNoteId: note._id})
+    this.selectedNote = note
   }
 
   fetchGroups() {

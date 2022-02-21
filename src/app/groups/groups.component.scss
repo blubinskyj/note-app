@@ -38,12 +38,15 @@ li {
   }
 }
 
-.selectedGroup {
-  background-color: #a58c31
+li.selected {
+  background-color: #a58c31;
+  .group-quantity{
+    color: #f5f5f7;
+  }
 }
 
 .group-quantity {
-  color: #c7c7bf;
+  color: #505853;
   margin-left: 6px;
 }
 

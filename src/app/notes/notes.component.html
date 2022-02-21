@@ -8,13 +8,13 @@
   <!--  </ul>-->
   <button (click)="createNote()">Create Note</button>
   <ul>
-    <li *ngFor="let note of notes$.value" (click)="selectNoteHandler(note._id)">
+    <li *ngFor="let note of notes$.value" (click)="selectNoteHandler(note)" [class.selected]="note === selectedNote" >
       <div>
         <div class="note-title">{{note.content}}</div>
         <span class="note-date">{{note.createdAt}}</span>
         <span class="note-preview">{{note.content}}</span>
       </div>
-      <div class="action-block">
+      <div class="action-block" *ngIf="selectedNote === note">
         <button class="action-button" (click)="deleteNote(note._id)" ><img src="./assets/images/delete_black_24dp.svg" alt=""></button>
       </div>
     </li>
